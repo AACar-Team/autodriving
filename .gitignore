@@ -1,4 +1,5 @@
 models/*.pth
 models/*.pt
+models/*
 detection/lane_detection/model/*.pth
 .git
