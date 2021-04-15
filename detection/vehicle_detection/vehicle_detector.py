@@ -141,12 +141,12 @@ class VehicleDetector:
                 ymax = min(int(detection.ymax), self.img_size[1])
                 class_id = int(detection.id)
                 color = self.palette[class_id]
-                det_label = labels[class_id] if labels and len(labels) >= class_id else '#{}'.format(class_id)
+                det_label = labels[class_id - 1] if labels and len(labels) >= class_id else '#{}'.format(class_id)
                 # print('{:^9} | {:10f} | {:4} | {:4} | {:4} | {:4} '
                 #       .format(det_label, detection.score, xmin, ymin, xmax, ymax))
                 cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), color, 2)
                 cv2.putText(frame, '{} {:.1%}'.format(det_label, detection.score),
-                            (xmin, ymin - 7), cv2.FONT_HERSHEY_COMPLEX, 0.6, color, 1)
+                            (xmin, ymin - 7), cv2.FONT_HERSHEY_PLAIN, 1.5, color, 2)
         return frame
 
     def inference(self):
