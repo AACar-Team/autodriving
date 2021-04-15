@@ -95,10 +95,10 @@ class VehicleDetector:
     def build_openvino_detector(self):
         self.logger.log_customize("Loading model...", icon="success", color="green")
         self.model_xml = self.cfg["model_xml"]
-        if not os.path.isfile(self.model_path):
-            self.logger.log(f"{self.model_path} dose not exist...")
-            return
-        self.model_bin = self.model_path.split(".")[0] + ".bin"
+        if not os.path.isfile(self.model_xml):
+            self.logger.log(f"{self.model_xml} dose not exist...")
+            raise ValueError(f"{self.model_xml} dose not exist...")
+        self.model_bin = self.model_xml.split(".")[0] + ".bin"
         self.logger.log_customize("Initializing Inference Engine...", icon="success", color="green")
         ie = IECore()
         model = YOLO(ie, self.model_xml, threshold=self.threshold, iou_threshold=self.iou_threshold, labels=self.label)
