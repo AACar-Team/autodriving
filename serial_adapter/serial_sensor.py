@@ -65,6 +65,7 @@ class SerialSensor(object):
     def send_cmd(self, cmd: str):
         ecmd = cmd.encode("utf-8")
         self.meter.send_cmd_internal(ecmd)
+        self.meter.flush_output()
 
     def get_msg(self):
         return "123,123"

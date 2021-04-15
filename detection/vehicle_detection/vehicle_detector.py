@@ -158,16 +158,19 @@ class VehicleDetector:
                 xmax = min(int(detection.xmax), self.img_size[0])
                 ymax = min(int(detection.ymax), self.img_size[1])
                 class_id = int(detection.id)
+                distance = float(distance)
                 color = self.palette[class_id]
                 det_label = labels[class_id - 1] if labels and len(labels) >= class_id else '#{}'.format(class_id)
+                if distance < 0:
+                    distance = 0
                 if distance < self.cfg["dis_threshold"]:
-                    sensor.send_cmd(str(int(distance)) + '\r\n')
+                    sensor.send_cmd(str(distance) + '\r\n')
                 print('{:^9} | {:10f} | {:4} | {:4} | {:4} | {:4} | {:2} '
-                      .format(det_label, detection.score, xmin, ymin, xmax, ymax, round(distance[0], 2)))
+                      .format(det_label, detection.score, xmin, ymin, xmax, ymax, round(distance, 2)))
                 cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), color, 2)
                 cv2.putText(frame, '{} {:.1%}'.format(det_label, detection.score),
                             (xmin, ymin - 7), cv2.FONT_HERSHEY_PLAIN, 1.5, color, 2)
-                cv2.putText(frame, 'dis:{:.2f}'.format(round(distance[0], 2)),
+                cv2.putText(frame, 'dis:{:.2f}'.format(round(distance, 2)),
                             (xmin, ymin + (ymax - ymin) + 20), cv2.FONT_HERSHEY_PLAIN, 1.5, color, 2)
         return frame
 

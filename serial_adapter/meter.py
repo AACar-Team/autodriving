@@ -108,3 +108,6 @@ class Meter(object):
         if not isinstance(cmd, bytes):
             raise ValueError("Incorrect command type, needed encoding to byte...")
         self._serial.write(cmd)
+
+    def flush_output(self):
+        self._serial.reset_output_buffer()

@@ -10,12 +10,12 @@
     "use_gpu": false
   },
   "vehicle_detection": {
-    "camera_id": "E:\\Workspace\\Python\\Vehicle-Distance-Detection-master\\input_videos\\beijing.mp4",
+    "camera_id": "E:\\Workspace\\Python\\Vehicle-Distance-Detection-master\\input_videos\\beijing_short2.mp4",
     "width": 1280,
     "height": 720,
     "use_gpu": false,
     "use_torch": false,
-    "threshold": 0.5,
+    "threshold": 0.65,
     "iou_threshold": 0.4,
     "label_path": "../config/label_list.txt",
     "model": "./model",
@@ -23,7 +23,7 @@
     "distance_camera_parameters": "../config/projection.p",
     "num_threads": 1,
     "num_streams": "",
-    "dis_threshold": 16
+    "dis_threshold": 5
   },
   "behavior_detection": {
     "img_type": ".jpg",
