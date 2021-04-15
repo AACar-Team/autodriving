@@ -10,7 +10,7 @@
     "use_gpu": false
   },
   "vehicle_detection": {
-    "camera_id": "C:\\Users\\EMB\\Desktop\\intel-carbox\\python\\video\\beijing.mp4",
+    "camera_id": "C:\\Users\\EMB\\Desktop\\intel-carbox\\python\\video\\beijing2.mp4",
     "width": 1280,
     "height": 720,
     "use_gpu": false,
