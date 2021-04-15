@@ -31,7 +31,7 @@ class EnsembleLayer(torch.nn.ModuleList):
         return y, None  # inference, train output
 
 
-class Conv(nn.Module):
+class Conv(torch.nn.Module):
 
     def __init__(self, c1, c2, k=1, s=1, p=None, g=1, act=True):
         super(Conv, self).__init__()

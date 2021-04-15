@@ -1,4 +1,5 @@
 argparse
+autopep8
 numpy
 openvino
 opencv-python
@@ -18,3 +19,4 @@ sklearn
 pathspec
 matplotlib
 pillow
+torch

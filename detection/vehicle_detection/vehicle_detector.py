@@ -47,8 +47,8 @@ class ModelDeviceException(Exception):
 class VehicleDetector:
     def __init__(self):
         self.logger = Logger(icon="sun", color="red")
-        config = ParseConfig("../../config/detection.json", "Vehicle-Detection")
-        self.cfg = config.read_config()
+        config = ParseConfig("../config/detection.json", "Vehicle-Detection")
+        self.cfg = config.read_config()["vehicle_detection"]
         self.img_size = (self.cfg["width"], self.cfg["height"])
         self.num_streams = self.cfg["num_streams"]
         self.num_threads = self.cfg["num_threads"]
