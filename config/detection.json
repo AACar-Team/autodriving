@@ -1,0 +1,38 @@
+{
+  "lane_detection": {
+    "img_type": ".jpg",
+    "width": 224,
+    "height": 224,
+    "normalization": [],
+    "use_aux": true,
+    "griding_num": 200,
+    "model": "./model",
+    "use_gpu": false
+  },
+  "vehicle_detection": {
+    "camera_id": "",
+    "img_type": ".jpg",
+    "width": 224,
+    "height": 224,
+    "use_gpu": false,
+    "use_torch": true,
+    "threshold": 0.5,
+    "iou_threshold": 0.4,
+    "label_path": "./config/label_list.txt",
+    "model": "./model",
+    "model_xml": "./model/yolov5s.xml",
+    "distance_camera_parameters": "./config/projection.p",
+    "num_threads": 1,
+    "num_streams": ""
+  },
+  "behavior_detection": {
+    "img_type": ".jpg",
+    "width": 224,
+    "height": 224,
+    "normalization": [],
+    "use_aux": true,
+    "griding_num": 200,
+    "model": "./model",
+    "use_gpu": false
+  }
+}

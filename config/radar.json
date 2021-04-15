@@ -1,0 +1,8 @@
+{
+  "baudrate": 115200,
+  "serial_port": "COM9",
+  "byte_size": 8,
+  "mode": "lidar",
+  "simulation_data_file": "./data",
+  "timeout": 1
+}
