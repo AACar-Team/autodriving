@@ -23,9 +23,10 @@ class AsyncPipeline:
     def __init__(self, ie, model, plugin_config, device='CPU', max_num_requests=1):
         self.model = model
         self.logger = logging.getLogger()
+        self.device = str(device).upper()
 
-        self.logger.info('Loading network to {} plugin...'.format(device))
-        self.exec_net = ie.load_network(network=self.model.net, device_name=device,
+        self.logger.info('Loading network to {} plugin...'.format(self.device))
+        self.exec_net = ie.load_network(network=self.model.net, device_name=self.device,
                                         config=plugin_config, num_requests=max_num_requests)
 
         self.empty_requests = deque(self.exec_net.requests)

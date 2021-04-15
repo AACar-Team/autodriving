@@ -1,11 +1,12 @@
 argparse
+autopep8
 numpy
 openvino
 opencv-python
 pyqt5
 pandas
 pyserial
-paddlepaddle-gpu
+paddlepaddle
 paddlex
 paddlehub
 requests
@@ -16,3 +17,6 @@ tensorboard
 addict
 sklearn
 pathspec
+matplotlib
+pillow
+torch

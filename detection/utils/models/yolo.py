@@ -19,6 +19,7 @@ import ngraph
 
 from .model import Model
 from .utils import Detection, resize_image, resize_image_letterbox, load_labels
+from ..extension import non_max_suppression
 
 class YOLO(Model):
     class Params:
@@ -197,10 +198,12 @@ class YOLO(Model):
 
     def postprocess(self, outputs, meta):
         detections = list()
-
+        data = outputs["output"]
+        data = non_max_suppression(data, 0.4, 0.5)
         for layer_name, out_blob in outputs.items():
             layer_params = self.yolo_layer_params[layer_name]
             out_blob.shape = layer_params[0]
+            out_blob = non_max_suppression(out_blob, 0.4, 0.5)
             detections += self._parse_yolo_region(out_blob, meta['resized_shape'], layer_params[1], self.threshold)
 
         detections = self._filter(detections, self.iou_threshold)

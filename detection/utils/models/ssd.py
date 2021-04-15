@@ -29,6 +29,8 @@ class SSD(Model):
             self.labels = labels
         else:
             self.labels = load_labels(labels) if labels else None
+        if len(self.labels) == 0:
+            self.labels = None
 
         self.image_blob_name, self.image_info_blob_name = self._get_inputs()
         self.n, self.c, self.h, self.w = self.net.input_info[self.image_blob_name].input_data.shape

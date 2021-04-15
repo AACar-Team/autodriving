@@ -4,15 +4,24 @@ from utils.logger import Logger
 logger = Logger()
 logger.show_banner()
 logger.print_sys_info()
-# init all sensor
 
-# run sensor
+import asyncio
+from radar.sensor import LidarSensor
+from serial_adapter.serial_sensor import SerialSensor
+from detection.vehicle_detection.vehicle_detector import VehicleDetector
 
-# run radar
+lidar = LidarSensor()
 
+sensor = SerialSensor()
 
-logger.log("RPlidar ready...", iconcolor=logger.color.font_color[logger.color.green], icon=logger.icon.success)
-# run detection
+detector = VehicleDetector()
 
+loop = asyncio.get_event_loop()
+loop.create_task(sensor.run())
+loop.run_forever()
 
-logger.log("Ready for all device...", iconcolor=logger.color.font_color[logger.color.green], icon=logger.icon.success)
+loop = asyncio.get_event_loop()
+loop.create_task(lidar.run())
+loop.run_forever()
+
+detector.inference()

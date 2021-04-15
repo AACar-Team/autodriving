@@ -16,7 +16,7 @@
 
 from time import perf_counter
 import cv2
-from helpers import put_highlighted_text
+from detection.utils.helpers import put_highlighted_text
 
 
 class Statistic:

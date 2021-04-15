@@ -1,7 +1,7 @@
 import colorsys
 import math
 import time
-from random import random
+from random import Random
 
 import numpy as np
 import torch
@@ -31,7 +31,7 @@ class EnsembleLayer(torch.nn.ModuleList):
         return y, None  # inference, train output
 
 
-class Conv(nn.Module):
+class Conv(torch.nn.Module):
 
     def __init__(self, c1, c2, k=1, s=1, p=None, g=1, act=True):
         super(Conv, self).__init__()
@@ -265,7 +265,7 @@ class ColorPalette:
         assert n > 0
 
         if rng is None:
-            rng = random.Random(0xACE)
+            rng = Random(0xACE)
 
         candidates_num = 100
         hsv_colors = [(1.0, 1.0, 1.0)]
