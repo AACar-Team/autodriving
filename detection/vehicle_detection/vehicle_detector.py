@@ -4,10 +4,10 @@ import sys
 
 import cv2
 import numpy as np
-import serial
 import torch
 from openvino.inference_engine import IECore
 
+from serial_adapter.serial_sensor import SerialSensor
 from detection.utils.extension import ColorPalette
 from detection.utils.models import SSD
 from detection.utils.models.utils import Detection
@@ -145,7 +145,7 @@ class VehicleDetector:
             img = img.unsqueeze(0)
         return raw, img
 
-    def draw_result(self, frame, result):
+    def draw_result(self, frame, result, sensor: SerialSensor):
         labels = self.model.labels
         for detection in result:
             if detection.score > self.threshold:
@@ -160,11 +160,8 @@ class VehicleDetector:
                 class_id = int(detection.id)
                 color = self.palette[class_id]
                 det_label = labels[class_id - 1] if labels and len(labels) >= class_id else '#{}'.format(class_id)
-                # if distance < self.cfg["dis_threshold"]:
-                #     test.meter_run_test.sensor.send_cmd("1ab")
-                # else:
-                #     test.meter_run_test.sensor.send_cmd("0ab")
-
+                if distance < self.cfg["dis_threshold"]:
+                    sensor.send_cmd(str(int(distance)) + '\r\n')
                 print('{:^9} | {:10f} | {:4} | {:4} | {:4} | {:4} | {:2} '
                       .format(det_label, detection.score, xmin, ymin, xmax, ymax, round(distance[0], 2)))
                 cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), color, 2)
@@ -174,7 +171,7 @@ class VehicleDetector:
                             (xmin, ymin + (ymax - ymin) + 20), cv2.FONT_HERSHEY_PLAIN, 1.5, color, 2)
         return frame
 
-    def inference(self):
+    def inference(self, sensor):
         next_frame_id = 0
         next_frame_id_to_show = 0
         while self.cap.isOpened():
@@ -184,7 +181,7 @@ class VehicleDetector:
             if results:
                 objects, frame_meta = results
                 frame = frame_meta["frame"]
-                frame = self.draw_result(frame, objects)
+                frame = self.draw_result(frame, objects, sensor)
                 cv2.imshow("Detection Result", frame)
                 cv2.waitKey(1)
                 next_frame_id_to_show += 1

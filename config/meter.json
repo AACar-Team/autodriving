@@ -1,6 +1,6 @@
 {
   "baudrate": 115200,
-  "serial_port": "COM11",
+  "serial_port": "COM9",
   "byte_size": 8,
   "timeout": 1
 }

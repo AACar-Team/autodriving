@@ -1,24 +1,22 @@
-# yield的作用主要类似return，但是return之后不会保存任何状态，直接退出函数，yield会记录当前在哪里退出的，然后记录，下次调用的时候可以回到这个位置
-def foo():
-    print("starting...")
-    while True:
-        res = yield 4
-        print(res)
+from multiprocessing.managers import BaseManager
 
 
-# g = foo()
-#
-# print(next(g))
-# print("*"*20)
-# print(next(g))
+class MathsClass:
+    def add(self, x, y):
+        return x + y
 
-def h():
-    print('study yield')
-    yield 5
-    print('go on!')
+    def mul(self, x, y):
+        return x * y
 
 
+class MyManager(BaseManager):
+    pass
 
-c = h()
-d1 = next(c)  # study yield
-d2 = next(c)
+
+MyManager.register('Maths', MathsClass)
+
+if __name__ == '__main__':
+    with MyManager() as manager:
+        maths = manager.Maths()
+        print(maths.add(4, 3))  # prints 7
+        print(maths.mul(7, 8))  # prints 56

@@ -23,7 +23,7 @@
     "distance_camera_parameters": "../config/projection.p",
     "num_threads": 1,
     "num_streams": "",
-    "dis_threshold": 5
+    "dis_threshold": 16
   },
   "behavior_detection": {
     "img_type": ".jpg",
