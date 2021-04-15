@@ -7,7 +7,6 @@ import numpy as np
 import serial
 import torch
 from openvino.inference_engine import IECore
-from serial import Serial
 
 from detection.utils.extension import ColorPalette
 from detection.utils.models import SSD
@@ -71,7 +70,7 @@ class VehicleDetector:
         self.model_path = ""
         self.model_bin = ""
         self.model_xml = ""
-        self.UNWARPED_SIZE = tuple()
+        self.UNWARPPED_SIZE = tuple()
 
         self.logger.log_customize("Choosing device to run Detector and Loading model...", icon="success", color="green")
         if self.cfg["use_gpu"] and torch.cuda.is_available():
@@ -114,7 +113,8 @@ class VehicleDetector:
         self.model_bin = self.model_xml.split(".")[0] + ".bin"
         self.logger.log_customize("Initializing Inference Engine...", icon="success", color="green")
         ie = IECore()
-        # model = YOLO(ie, self.model_xml, threshold=self.threshold, iou_threshold=self.iou_threshold, labels=self.label)
+        # model = YOLO(ie, self.model_xml, threshold=self.threshold, iou_threshold=self.iou_threshold,
+        # labels=self.label)
         model = SSD(ie, self.model_xml, labels=self.label)
         self.model = model
         plugin_config = get_plugin_configs(self.device, self.num_streams, self.num_threads)
@@ -132,7 +132,7 @@ class VehicleDetector:
             self.perspective_transform = perspective_data["perspective_transform"]
             self.pixels_per_meter = perspective_data['pixels_per_meter']
             self.orig_points = perspective_data["orig_points"]
-            self.UNWARPED_SIZE = 500, 600
+            self.UNWARPPED_SIZE = 500, 600
 
     def preprocess(self, img):
         raw = img.copy()
@@ -151,7 +151,7 @@ class VehicleDetector:
             if detection.score > self.threshold:
                 distance = calculate_position(bbox=detection,
                                               transform_matrix=self.perspective_transform,
-                                              warped_size=self.UNWARPED_SIZE,
+                                              warped_size=self.UNWARPPED_SIZE,
                                               pix_per_meter=self.pixels_per_meter)
                 xmin = max(int(detection.xmin), 0)
                 ymin = max(int(detection.ymin), 0)
@@ -160,6 +160,11 @@ class VehicleDetector:
                 class_id = int(detection.id)
                 color = self.palette[class_id]
                 det_label = labels[class_id - 1] if labels and len(labels) >= class_id else '#{}'.format(class_id)
+                # if distance < self.cfg["dis_threshold"]:
+                #     test.meter_run_test.sensor.send_cmd("1ab")
+                # else:
+                #     test.meter_run_test.sensor.send_cmd("0ab")
+
                 print('{:^9} | {:10f} | {:4} | {:4} | {:4} | {:4} | {:2} '
                       .format(det_label, detection.score, xmin, ymin, xmax, ymax, round(distance[0], 2)))
                 cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), color, 2)
@@ -207,6 +212,3 @@ class VehicleDetector:
                 next_frame_id_to_show += 1
             else:
                 break
-
-    def detect(self, im):
-        pass

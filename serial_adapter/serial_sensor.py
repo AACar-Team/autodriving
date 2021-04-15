@@ -64,3 +64,7 @@ class SerialSensor(object):
         print("Firmware Version:", info["firmware"])
         print("Serial Number:", info["serialnumber"])
         print("=" * 80)
+
+    def send_cmd(self, cmd: str):
+        ecmd = cmd.encode("utf-8")
+        self.meter._send_cmd(ecmd)

@@ -104,5 +104,7 @@ class Meter(object):
     def send_json_data(self):
         pass
 
-    def _send_cmd(self):
-        pass
+    def _send_cmd(self, cmd):
+        if not isinstance(cmd, bytes):
+            raise ValueError("Incorrect command type, needed encoding to byte...")
+        self._serial.write(cmd)
