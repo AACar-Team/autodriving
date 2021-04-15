@@ -197,9 +197,10 @@ class YOLO(Model):
 
     def postprocess(self, outputs, meta):
         detections = list()
-
+        print(outputs["output"])
         for layer_name, out_blob in outputs.items():
             layer_params = self.yolo_layer_params[layer_name]
+            print(out_blob)
             out_blob.shape = layer_params[0]
             detections += self._parse_yolo_region(out_blob, meta['resized_shape'], layer_params[1], self.threshold)
 

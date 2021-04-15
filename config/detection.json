@@ -11,7 +11,7 @@
   },
   "vehicle_detection": {
     "camera_id": "C:\\Users\\EMB\\Desktop\\intel-carbox\\python\\video\\beijing.mp4",
-    "width": 1024,
+    "width": 1280,
     "height": 720,
     "use_gpu": false,
     "use_torch": false,
@@ -19,7 +19,7 @@
     "iou_threshold": 0.4,
     "label_path": "../config/label_list.txt",
     "model": "./model",
-    "model_xml": "../models/yolo/yolov5s.xml",
+    "model_xml": "../models/ssd/ssd.xml",
     "distance_camera_parameters": "../config/projection.p",
     "num_threads": 1,
     "num_streams": ""
