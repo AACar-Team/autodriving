@@ -22,7 +22,8 @@
     "model_xml": "../models/ssd/ssd.xml",
     "distance_camera_parameters": "../config/projection.p",
     "num_threads": 1,
-    "num_streams": ""
+    "num_streams": "",
+    "dis_threshold": 5
   },
   "behavior_detection": {
     "img_type": ".jpg",
