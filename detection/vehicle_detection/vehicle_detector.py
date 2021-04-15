@@ -3,18 +3,18 @@ import pickle
 import sys
 
 import cv2
-import serial
 import numpy as np
+import serial
 import torch
 from openvino.inference_engine import IECore
 from serial import Serial
 
 from detection.utils.extension import ColorPalette
-from detection.utils.models import YOLO, SSD
+from detection.utils.models import SSD
+from detection.utils.models.utils import Detection
 from detection.utils.pipelines import AsyncPipeline
 from utils.logger import Logger
 from utils.reader import ParseConfig
-from detection.utils.models.utils import Detection
 
 
 def get_plugin_configs(device, num_streams, num_threads):
@@ -96,13 +96,20 @@ class VehicleDetector:
         self.load_camera_parameters("distance")
         self.logger.log_customize("Camera distance parameters ready...", icon="success", color="green")
 
+        self.logger.log_customize("Connect with wireless sensor...", icon="success", color="green")
+        self.build_serial_messager()
+        self.logger.log_customize("Connected...", icon="success", color="green")
+
     def build_serial_messager(self):
-        meter_config = ParseConfig("../config/meter.json")
+        meter_config = ParseConfig("../config/meter.json", "message")
         self.meter_cfg = meter_config.read_config()
-        self.cmd = Serial(
+        try:
+            self.cmd = Serial(
                 self.meter_cfg["port"], self.meter_cfg["baudrate"],
                 parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
                 timeout=self.meter_cfg["timeout"])
+        except:
+            raise ValueError("No such Serial Port to open...")
 
     def build_torch_detector(self):
         self.model_path = self.cfg["model"]
@@ -170,6 +177,8 @@ class VehicleDetector:
                 det_label = labels[class_id - 1] if labels and len(labels) >= class_id else '#{}'.format(class_id)
                 if distance < self.cfg["dis_threshold"]:
                     self.cmd.write("1ab".encode("utf-8"))
+                else:
+                    self.cmd.write("0ab".encode("utf-8"))
                 print('{:^9} | {:10f} | {:4} | {:4} | {:4} | {:4} | {:2} '
                       .format(det_label, detection.score, xmin, ymin, xmax, ymax, round(distance[0], 2)))
                 cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), color, 2)
