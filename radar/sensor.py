@@ -10,12 +10,11 @@ from utils.reader import ParseConfig
 class LidarSensor(object):
 
     def __init__(self):
-
+        config = ParseConfig("./config/radar.json", "radar")
+        self.cfg = config.read_config()
+        self.mode = self.cfg["mode"]
         try:
-            config = ParseConfig("../config/radar.json", "radar")
-            self.cfg = config.read_config()
             self.simulation_data_file = self.cfg["simulation_data_file"]
-            self.mode = self.cfg["mode"]
             self.serial_port = self.cfg["serial_port"]
             self.baudrate = self.cfg["baudrate"]
             self.byte_size = self.cfg["byte_size"]
