@@ -15,6 +15,7 @@ from utils.reader import ParseConfig
 
 
 def get_plugin_configs(device, num_streams, num_threads):
+    device = str(device)
     config_user_specified = {}
 
     devices_nstreams = {}
@@ -22,7 +23,6 @@ def get_plugin_configs(device, num_streams, num_threads):
         devices_nstreams = {device: num_streams for device in ['cpu', 'gpu'] if device in device} \
             if num_streams.isdigit() \
             else dict(device.split(':', 1) for device in num_streams.split(','))
-
     if 'cpu' in device:
         if num_threads is not None:
             config_user_specified['CPU_THREADS_NUM'] = str(num_threads)
