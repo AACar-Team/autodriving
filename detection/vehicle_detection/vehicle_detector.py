@@ -178,8 +178,6 @@ class VehicleDetector:
         next_frame_id = 0
         next_frame_id_to_show = 0
         while self.cap.isOpened():
-            if self.detector_pipeline.callback_exceptions:
-                raise self.detector_pipeline.callback_exceptions[0]
             results = self.detector_pipeline.get_result(next_frame_id_to_show)
             if results:
                 objects, frame_meta = results
