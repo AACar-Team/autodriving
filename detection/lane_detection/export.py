@@ -1,6 +1,6 @@
 import torch
 
-from model.model import parsingNet
+from model.lane_model import parsingNet
 
 # Export to TorchScript that can be used for LibTorch
 

@@ -1,5 +1,5 @@
 import torch, os, cv2
-from model.model import parsingNet
+from model.lane_model import parsingNet
 from utils.common import merge_config
 from utils.dist_utils import dist_print
 import torch

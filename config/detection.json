@@ -1,13 +1,16 @@
 {
   "lane_detection": {
-    "img_type": ".jpg",
-    "width": 224,
-    "height": 224,
+    "width": 1280,
+    "height": 720,
     "normalization": [],
-    "use_aux": true,
-    "griding_num": 200,
     "model": "./model",
-    "use_gpu": false
+    "use_gpu": false,
+    "use_aux": false,
+    "backbone": "18",
+    "num_lanes": 4,
+    "griding_num": 200,
+    "row_anchor": [121, 131, 141, 150, 160, 170, 180, 189, 199, 209, 219, 228, 238, 248, 258, 267, 277, 287],
+    "cls_num_per_lane": 18
   },
   "vehicle_detection": {
     "camera_id": "E:\\Workspace\\Python\\Vehicle-Distance-Detection-master\\input_videos\\beijing_short2.mp4",

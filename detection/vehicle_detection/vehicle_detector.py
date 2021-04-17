@@ -184,7 +184,7 @@ class VehicleDetector:
                 frame = frame_meta["frame"]
                 frame = self.draw_result(frame, objects, sensor)
                 cv2.imshow("Detection Result", frame)
-                cv2.waitKey(1)
+                cv2.waitKey(0)
                 next_frame_id_to_show += 1
 
             if self.detector_pipeline.is_ready():
