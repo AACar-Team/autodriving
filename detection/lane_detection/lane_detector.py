@@ -55,10 +55,16 @@ class LaneDetector:
             imgs = imgs.cuda()
         return frame, imgs
 
-    def detect(self):
-        pass
+    def detect(self, image):
+        if type(image) == np.ndarray:
+            image = Image.fromarray(image)
+        else:
+            raise Exception(
+                f"Unresolved input type: {type(image)}. {type(torch.Tensor)} and {type(np.ndarray)} are allowed.")
+        image = torch.reshape(torch.unsqueeze(self.preprocess(image), -1), (1, 3, 288, 800))
+        return self.model(image)
 
-    def postprocess(self, out):
+    def postprocess(self, out, size_processed=(288, 800)):
         out_j = out[0].data.cpu().numpy()
         out_j = out_j[:, ::-1, :]
         prob = scipy.special.softmax(out_j[:-1, :, :], axis=0)
@@ -75,6 +81,7 @@ class LaneDetector:
                 for k in range(out_j.shape[0]):
                     if out_j[k, i] > 0:
                         # cv2.circle(frame, ppp, 5, (0, 255, 0), -1)
-                        pos.append((int(out_j[k, i] * self.col_sample_w * self.w / 800) - 1,
-                                    int(self.h * (self.row_anchor[self.cls_num_per_lane - 1 - k] / 288)) - 1))
+                        pos.append((int(out_j[k, i] * self.col_sample_w * self.w / size_processed[1]) - 1,
+                                    int(self.h * (self.row_anchor[self.cls_num_per_lane - 1 - k] / size_processed[
+                                        0])) - 1))
         return pos
